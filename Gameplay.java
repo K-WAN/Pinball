@@ -1,4 +1,4 @@
-package BreakoutBall;
+package Pinball;
 
 import javax.swing.JPanel;
 import java.awt.event.KeyListener;
@@ -29,8 +29,8 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
-        timer = new Timer(delay, this);
-        timer.start();
+        // timer = new Timer(delay, this);
+        // timer.start();
 
     }
 
@@ -44,7 +44,7 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
         g.fillRect(0, 0, 3, 592);
         g.fillRect(0, 0, 692, 3);
         g.fillRect(691, 0, 3, 592);
-        // g.fillRect(0, 591, 692, 3);
+        g.fillRect(0, 591, 692, 3);
 
         //paddle
         g.setColor(Color.green);
@@ -71,13 +71,35 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
     @Override
     public void keyPressed(KeyEvent e) {
         // TODO Auto-generated method stub
-        
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT){
+            if (playerX > 600){
+                playerX = 600;
+            } else {
+                moveRight();
+            }
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_LEFT){
+            if (playerX <10){
+                playerX = 10;
+            } else {
+                moveLeft();
+            }
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         // TODO Auto-generated method stub
         
+    }
+
+    private void moveRight() {
+        playerX += 20;
+    }
+
+    private void moveLeft() {
+        playerX -= 20;
     }
     
 }
