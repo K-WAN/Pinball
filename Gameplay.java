@@ -1,13 +1,14 @@
 package Pinball;
 
-import javax.swing.JPanel;
-import java.awt.event.KeyListener;
-import java.util.Timer;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import javax.swing.JPanel;
+import javax.swing.Timer;
 
 public class Gameplay extends JPanel implements KeyListener, ActionListener {
     private boolean play = false;
@@ -29,8 +30,8 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
-        // timer = new Timer(delay, this);
-        // timer.start();
+        timer = new Timer(delay, this);
+        timer.start();
 
     }
 
@@ -43,8 +44,7 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
         g.setColor(Color.yellow);
         g.fillRect(0, 0, 3, 592);
         g.fillRect(0, 0, 692, 3);
-        g.fillRect(691, 0, 3, 592);
-        g.fillRect(0, 591, 692, 3);
+        g.fillRect(681, 0, 3, 592);
 
         //paddle
         g.setColor(Color.green);
@@ -52,14 +52,29 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
 
         //ball
         g.setColor(Color.yellow);
-        g.fillRect(ballposX, ballposY, 20, 20);
+        g.fillOval(ballposX, ballposY, 20, 20);
         
+        g.dispose();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
-        
+        timer.start();
+        if (play){
+            ballposX += ballXdir;
+            ballposY += ballYdir;
+            if (ballposX < 0){
+                ballXdir = -ballXdir;
+            }
+            if (ballposX > 600){
+                ballXdir = -ballXdir;
+            }
+            if (ballposY < 0){
+                ballYdir = -ballYdir;
+            }            
+        }
+        repaint();
     }
 
     @Override
@@ -95,10 +110,12 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
     }
 
     private void moveRight() {
+        play = true;
         playerX += 20;
     }
 
     private void moveLeft() {
+        play = true;
         playerX -= 20;
     }
     
