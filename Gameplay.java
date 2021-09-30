@@ -1,6 +1,7 @@
 package Pinball;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -53,6 +54,14 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
         //ball
         g.setColor(Color.yellow);
         g.fillOval(ballposX, ballposY, 20, 20);
+
+        if (ballposY > 570){
+            play = false;
+            // timer.stop();
+            g.setColor(Color.RED);
+            g.setFont(new Font("serif", Font.BOLD, 30));
+            g.drawString("Game Over", 250, 300);
+        }
         
         g.dispose();
     }
