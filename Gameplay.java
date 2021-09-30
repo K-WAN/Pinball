@@ -12,6 +12,8 @@ import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import java.awt.Graphics2D;
+
 public class Gameplay extends JPanel implements KeyListener, ActionListener {
     private boolean play = false;
     private int score = 0;
@@ -28,7 +30,10 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
     private int ballXdir = -1;
     private int ballYdir = -2;
 
+    private MapGenerator map;
+
     public Gameplay(){
+        map = new MapGenerator(3,7);
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
@@ -40,6 +45,9 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
         //background
         g.setColor(Color.black);
         g.fillRect(1, 1, 692, 592);
+
+        //blocks
+        map.draw((Graphics2D) g);
 
         //border
         g.setColor(Color.yellow);
