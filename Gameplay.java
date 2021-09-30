@@ -2,6 +2,7 @@ package Pinball;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -32,7 +33,6 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
         setFocusTraversalKeysEnabled(false);
         timer = new Timer(delay, this);
         timer.start();
-
     }
 
     public void paint(Graphics g){
@@ -61,18 +61,27 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
         timer.start();
+        Rectangle ball = new Rectangle(ballposX, ballposY, 20, 20);
+        Rectangle player = new Rectangle(playerX, 550, 100, 8);
         if (play){
+            if (ball.intersects(player)){
+                ballYdir = -ballYdir;
+            }
             ballposX += ballXdir;
             ballposY += ballYdir;
             if (ballposX < 0){
                 ballXdir = -ballXdir;
             }
-            if (ballposX > 600){
+            if (ballposX > 670){
                 ballXdir = -ballXdir;
             }
             if (ballposY < 0){
                 ballYdir = -ballYdir;
             }            
+            if (ballposY > 600){
+                timer.stop();
+                System.out.println("you lose");
+            }
         }
         repaint();
     }
