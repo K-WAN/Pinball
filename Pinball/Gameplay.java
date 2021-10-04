@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.security.sasl.RealmCallback;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -80,10 +81,51 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
         timer.start();
         Rectangle ball = new Rectangle(ballposX, ballposY, 20, 20);
         Rectangle player = new Rectangle(playerX, 550, 100, 8);
+
+        int brickX;
+        int brickY;
+        int brickWidth;
+        int brickHeight;
+        Rectangle rect;
+        Rectangle ballRect;
+        Rectangle brickRect;
+
+
         if (play){
             if (ball.intersects(player)){
                 ballYdir = -ballYdir;
             }
+
+            A: for (int i = 0; i<map.map.length; i++){
+                for (int j = 0; j<map.map[0].length; j++){
+                    if (map.map[i][j] > 0){
+                        brickX = j * map.brickWidth + 80;
+                        brickY = i * map.brickHeight + 50;
+                        brickWidth = map.brickWidth;
+                        brickHeight = map.brickHeight;
+
+                        rect  = new Rectangle(brickX, brickY, brickWidth, brickHeight);
+                        ballRect = new Rectangle(ballposX, ballposY, 20, 20);
+                        brickRect = rect;
+
+                        if (ballRect.intersects(brickRect)){
+                            map.setBrickValue(0, i, j);
+                            totalBricks--;
+                            score += 5;
+
+                            if (ballposX + 19 <= brickRect.x || ballposX + 1 >= brickRect.x + brickRect.width){
+                                ballXdir = -ballXdir;
+                            } else {
+                                ballYdir = -ballYdir;
+                            }
+
+                            break A;
+                        }
+                    }
+                }
+            }
+
+
             ballposX += ballXdir;
             ballposY += ballYdir;
             if (ballposX < 0){
